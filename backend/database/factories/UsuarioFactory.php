@@ -19,6 +19,7 @@ class UsuarioFactory extends Factory
         return [
             'idpersona' => fake()->numberBetween(1,10),
             'usuario' => fake()->userName(),
+            'correo' => fake()->email(),
             'clave' => fake()->word(),
             'habilitado' => fake()->randomElement(['si', 'no']),
             'fecha' => fake()->date(),

@@ -31,7 +31,8 @@ class UsuarioController extends Controller
     {
         try {
             $validated = $request->validate([
-                'usuario' => 'required|string'
+                'correo' => 'required|email',
+                'clave' => 'required'
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()],422);
@@ -40,6 +41,7 @@ class UsuarioController extends Controller
         $usuario = new Usuario();
         $usuario->idpersona = $request->idpersona;
         $usuario->usuario = $request->usuario;
+        $usuario->correo = $request->correo;
         $usuario->clave = $request->clave;
         $usuario->habilitado = $request->habilitado;
         $usuario->fecha = $request->fecha;
@@ -74,7 +76,7 @@ class UsuarioController extends Controller
     {
         try {
             $validated = $request->validate([
-                'usuario' => 'required|string'
+                'correo' => 'required|email'
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()],422);
@@ -84,6 +86,7 @@ class UsuarioController extends Controller
         $usuario = $usuarios->find($id);
         $usuario->idpersona = $request->idpersona;
         $usuario->usuario = $request->usuario;
+        $usuario->correo = $request->correo;
         $usuario->clave = $request->clave;
         $usuario->habilitado = $request->habilitado;
         $usuario->fecha = $request->fecha;
