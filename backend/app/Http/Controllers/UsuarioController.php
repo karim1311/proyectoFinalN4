@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -24,6 +26,25 @@ class UsuarioController extends Controller
         //
     }
 
+    function login (Request $req)
+    {
+        $correo = $req->input('correo');
+        $clave = $req->input('clave');
+
+        $usuario = DB::table('usuarios')->where('correo',$correo)->first();
+
+        //$password =  "admin"
+        if (!Hash::check($clave, $usuario->clave)) 
+        {
+            echo "Not matched";    
+        }
+        else
+        {
+            echo $usuario->correo;
+        }
+
+    }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -31,7 +52,8 @@ class UsuarioController extends Controller
     {
         try {
             $validated = $request->validate([
-                'usuario' => 'required|string'
+                'correo' => 'required|email',
+                'clave' => 'required'
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()],422);
@@ -40,6 +62,7 @@ class UsuarioController extends Controller
         $usuario = new Usuario();
         $usuario->idpersona = $request->idpersona;
         $usuario->usuario = $request->usuario;
+        $usuario->correo = $request->correo;
         $usuario->clave = $request->clave;
         $usuario->habilitado = $request->habilitado;
         $usuario->fecha = $request->fecha;
@@ -74,7 +97,7 @@ class UsuarioController extends Controller
     {
         try {
             $validated = $request->validate([
-                'usuario' => 'required|string'
+                'correo' => 'required|email'
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()],422);
@@ -84,6 +107,7 @@ class UsuarioController extends Controller
         $usuario = $usuarios->find($id);
         $usuario->idpersona = $request->idpersona;
         $usuario->usuario = $request->usuario;
+        $usuario->correo = $request->correo;
         $usuario->clave = $request->clave;
         $usuario->habilitado = $request->habilitado;
         $usuario->fecha = $request->fecha;
