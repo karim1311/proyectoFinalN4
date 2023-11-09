@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Usuario;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -22,6 +24,25 @@ class UsuarioController extends Controller
     public function create()
     {
         //
+    }
+
+    function login (Request $req)
+    {
+        $correo = $req->input('correo');
+        $clave = $req->input('clave');
+
+        $usuario = DB::table('usuarios')->where('correo',$correo)->first();
+
+        //$password =  "admin"
+        if (!Hash::check($clave, $usuario->clave)) 
+        {
+            echo "Not matched";    
+        }
+        else
+        {
+            echo $usuario->correo;
+        }
+
     }
 
     /**
