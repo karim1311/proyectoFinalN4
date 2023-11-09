@@ -1,7 +1,5 @@
 import React from 'react'
 import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
-
 
 export default function Register() {
     const [correo, setCorreo] = useState("");
